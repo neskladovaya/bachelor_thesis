@@ -19,13 +19,15 @@
 \usepackage{amssymb} % для \mathbb{N}
 \usepackage[ruled,vlined]{algorithm2e} % Параметры: ruled — с линейкой, vlined — вертикальные линии
 
-\usepackage[unicode, pdftex]{hyperref}
+\usepackage[unicode, pdftex, hidelinks]{hyperref}
 \usepackage{csquotes}
 \usepackage[
+	backend=biber,
     style=gost-numeric,
     language=auto,
     autolang=other
 ]{biblatex}
+\addbibresource{references.bib}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -70,38 +72,42 @@
 \title{thesis}
 \author{Анастасия Кулевич}
 \date{February 2026}
-\linespread{1.4}
+\linespread{1.3}
+
+
 
 \begin{document}
 
-    \input{src/00_title.tex}
-    \clearpage
-
-    \input{src/01_annotation.tex}
-    \clearpage
-
-	\tableofcontents
-	\clearpage
-
-    \input{src/02_intro.tex}
-    \clearpage
-
-    \input{src/03_simulation.tex}
-    \clearpage
-
-    \input{src/05_formal.tex}
-    \clearpage
-
-    \input{src/06_instruments.tex}
-    \clearpage
-
-    \input{src/07_cache.tex}
-    \clearpage
-
-    \input{src/08_comparison.tex}
-    \clearpage
-
-    \input{src/09_results.tex}
-    \clearpage
-
+   \input{src/00_title.tex}
+   \clearpage
+   
+   \input{src/01_annotation.tex}
+   \clearpage
+   
+   \tableofcontents
+   \clearpage
+   
+   \input{src/02_intro.tex}
+   \clearpage
+   
+   \input{src/03_simulation.tex}
+   \clearpage
+   
+   \input{src/05_formal.tex}
+   \clearpage
+   
+   \input{src/06_instruments.tex}
+   \clearpage
+   
+   \input{src/07_cache.tex}
+   \clearpage
+   
+   \input{src/08_comparison.tex}
+   \clearpage
+   
+   \input{src/09_results.tex}
+   \clearpage
+   
+    \printbibliography
+    
 \end{document}
