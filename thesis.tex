@@ -1,6 +1,6 @@
 \documentclass[a4paper, 12pt]{article}
 
-\usepackage{minted}
+%\usepackage{minted}
 \usepackage{secdot}
 \usepackage{cmap}
 \usepackage[utf8]{inputenc}
@@ -8,6 +8,7 @@
 \usepackage[a4paper, left=3cm, right=1.5cm, top=2cm, bottom=2cm]{geometry}
 \usepackage{setspace}
 \usepackage{tikz}
+\usepackage{array}
 \usepackage{adjustbox}
 \usepackage{titlesec}
 \usepackage{ifthen}
@@ -17,7 +18,14 @@
 \usepackage{listings}
 \usepackage{hyphenat}
 \usepackage{amssymb} % для \mathbb{N}
-\usepackage[ruled,vlined]{algorithm2e} % Параметры: ruled — с линейкой, vlined — вертикальные линии
+%\usepackage[ruled,vlined]{algorithm2e} % Параметры: ruled — с линейкой, vlined — вертикальные линии
+
+% График (barchart)
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage[T2A]{fontenc}  % Изменили на T2A для правильной поддержки кириллицы
+\usepackage{cmap}          % Для улучшенного поиска в PDF
+\usepackage{mathtext}      % Для правильного отображения математических символов в кириллице
 
 \usepackage[unicode, pdftex, hidelinks]{hyperref}
 \usepackage{csquotes}
@@ -34,6 +42,7 @@
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.99,0.97,0.9}
 
+\pgfplotsset{compat=1.18}
 % Настройка стиля листинга
 \lstset{
     language=Verilog,
@@ -108,6 +117,6 @@
    \input{src/09_results.tex}
    \clearpage
    
-    \printbibliography
+    %\printbibliography
     
 \end{document}
