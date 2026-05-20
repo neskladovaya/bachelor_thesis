@@ -1,4 +1,5 @@
-\documentclass{beamer}
+\PassOptionsToPackage{prologue,dvipsnames}{xcolor}
+\documentclass[table]{beamer}
 
 \mode<presentation>
 {
@@ -12,10 +13,12 @@
 \usepackage[english,russian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+
+\usepackage[table]{xcolor}
 \usepackage{lmodern}
-\usepackage{tikz}
 \usepackage{array}
 \usepackage{adjustbox}
+\usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usepackage[T2A]{fontenc}  % Изменили на T2A для правильной поддержки кириллицы
@@ -41,7 +44,7 @@
 			\begin{itemize}
 				\item Количество состояний системы
 				\item Отсутствие способа доказать полную корректность
-				\item Ограниченные сроки
+				\item Обнаружение ошибок как можно быстрее
 			\end{itemize}
 		\end{block}
 		
@@ -51,7 +54,7 @@
 		
 		Ведётся разработка первого отечественного GPGPU.
 		
-		L2 кэш --- один из ключевых компонентов.
+		Разрабатывается L2 кэш --- один из ключевых компонентов.
 		\begin{block}{Цель работы:}
 			\begin{itemize}
 				\item Верификация L2 кэша GPGPU
@@ -60,9 +63,8 @@
 		
 		\begin{block}{Задачи:}
 			\begin{itemize}
-				\item Изучение различных методов верификации
-				\item Реализация методов для L2 кэша
-				\item Сравнение методов 
+				\item Применить методы формальной верификации и симуляции к L2 кэшу
+				\item Провести сравнительный анализ рассматриваемых методов
 			\end{itemize}
 		\end{block}
 		
@@ -152,14 +154,37 @@
 			\end{itemize}
 		\end{block}
 		
+		\begin{block}{Применима только к синхронным схемам.}
+	
+		\end{block}
+		
 	\end{frame}
 	
 	\begin{frame}{Устройство L2 кэша}
-		
-		\begin{figure}[htb]
-			\includegraphics[width=.65\textwidth]{../src/img/l2.png}
-			\caption{\label{fig:cache}Партиция L2 кэша GPGPU.}
-		\end{figure}
+		\begin{columns}
+			\begin{column}{0.5\textwidth}
+				\begin{block}{Обозначения:}
+					\begin{itemize}
+						\item DD (Data Decode): приём пакетов с L1
+						\item T (Tag): наличие кэш-линии
+						\item S (Schedule): окончательное "расписание"
+						\item D (Data): хранение данных кэша
+						\item Q (Queue): буферизация запросов в память
+						\item M (Miss): обработка miss
+						\item C (Cross): передача пакетов в L1
+					\end{itemize}
+				\end{block}
+			\end{column}
+			
+			\begin{column}{0.6\textwidth}
+				\begin{block}{}
+					\begin{figure}[htb]
+						\includegraphics[width=1\textwidth]{../src/img/l2.png}
+						\caption{\label{fig:cache}Партиция L2 кэша GPGPU.}
+					\end{figure}
+				\end{block}
+			\end{column}
+		\end{columns}
 		
 	\end{frame}
 	
@@ -198,10 +223,9 @@
 								grid style=dashed,
 								]
 								
-								\addplot[smooth,
-								tension=0.2,
+								\addplot[only marks,
 								color=blue,
-								mark=square,
+								mark=*,
 								]
 								coordinates {
 									(0,0)
@@ -271,10 +295,9 @@
 									grid style=dashed,
 									]
 									
-									\addplot[smooth,
-									tension=0.15,
+									\addplot[only marks,
 									color=blue,
-									mark=square,
+									mark=*,
 									]
 									coordinates {
 										(0   ,0    )
@@ -336,10 +359,9 @@
 									grid style=dashed,
 									]
 									
-									\addplot[smooth,
-									tension=0.2,
+									\addplot[only marks,
 									color=blue,
-									mark=square,
+									mark=*,
 									]
 									coordinates {
 										(0  ,		0    )
@@ -403,16 +425,24 @@
 			\begin{tabular}{l|r|r|r|r|r}
 				Блок                                                              & D-stage            & C-stage & DD-stage & T-stage & Q-stage \\ \hline
 				$N_{\text{триггеров}}$                                                        & 374 086             & 22 457   & 1788     & 79 936   & 35 906   \\ \hline
-				$N_{\text{лог. вентилей}}$                                              & 1 074 060            & 142 640  & 34 599    & 271 233  & 195 514  \\ \hline
-				$N_{\text{транзакций}}$ & 45 & 150 & 18 & 2000 & 390 \\ \hline 
-				$t_{\text{сим}}$, с & 10                 & 12      & 10       & 201     & 19      \\ \hline
-				$t_{\text{форм}}$, мин                         & 4694 & 1031    & 46       & 3752    & 720     \\ 
+				%$N_{\text{лог. вентилей}}$                                              & 1 074 060            & 142 640  & 34 599    & 271 233  & 195 514  \\ \hline
+				%$N_{\text{транзакций}}$ & 45 & 150 & 18 & 2000 & 390 \\ \hline 
+				$C_{\text{max}}$ & 98.67\% & 94.94\% & 97.85\% & 99.63\% & 95.06\% \\ \hline 
+				\rowcolor{lime} $t_{\text{сим}}$, с & 10                 & 12      & 10       & 201     & 19      \\ \hline
+				\rowcolor{yellow} $t_{\text{форм}}$, мин                         & 4694 & 1031    & 46       & 3752    & 720     \\ 
 				
 			\end{tabular}
-			\caption{Время, затраченное на верификацию блоков используя методы формальной верификации и UVM-тестирования.}
+			\caption{Сравнение методов формальной верификации и UVM-тестирования.}
 			\label{tab:main-table}
 		\end{table}
 		
+		\begin{block}{Примеры найденных ошибок:}
+			\begin{itemize}
+				\item D-stage: не проверялась валидность инструкций, записывающих данные в память. 
+				\item T-stage: некорректно выставлялся флаг для пакетов, передающихся на S-stage. 
+				\item С-stage: неправильная арбитрация пакетов, приходящих с M-, D-stage и TLB.
+			\end{itemize}
+		\end{block}
 	\end{frame}
 	
 	\begin{frame}{Выводы}
